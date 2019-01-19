@@ -1,0 +1,33 @@
+#!/bin/bash
+#enable or disable touchpad i3blocks
+#c1b3rh4ck@gmail.com
+#you will want to get the device inputs, search for your mouse, in my case it was the 11 device in the list.
+#get the list with the comand  xinput list. Be aware that you're using libinput and not synaptics.
+
+touchpadStatus=$(xinput list-props 11|grep "Tapping Enabled ("|awk '{print $5}')
+if [[ "${touchpadStatus}" == 1 ]]; then
+    checkLock="on"
+else 
+    checkLock="off"
+fi
+
+# Left click
+if [[ "${BLOCK_BUTTON}" -eq 1 ]]; then
+  xinput set-prop 14 "Device Enabled" 0
+  checkLock="off"
+
+# Right click
+elif [[ "${BLOCK_BUTTON}" -eq 3 ]]; then
+  xinput set-prop 14 "Device Enabled" 1
+  checkLock="on"
+fi
+
+if [[ "${checkLock}" == "on" ]]; then
+  echo "on"
+  echo "on"
+  echo ""
+else
+  echo "off"
+  echo "off"
+  echo ""
+fi
